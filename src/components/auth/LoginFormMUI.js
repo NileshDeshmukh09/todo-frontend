@@ -38,7 +38,6 @@ const LoginFormMUI = ({ onSubmit, isSubmitting = false, error = null }) => {
     { email: "user1@example.com", password: "ChangeMe123!" },
     { email: "user2@example.com", password: "ChangeMe123!" },
     { email: "admin@example.com", password: "ChangeMe123!" },
-    {}
   ];
 
   return (
