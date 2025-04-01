@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   TextField,
@@ -7,33 +7,42 @@ import {
   Typography,
   Link,
   CircularProgress,
-  Alert
-} from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { useForm } from '../../hooks/useForm';
-import { authAPI } from '../../services/api';
+  Alert,
+  List,
+  ListItem
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
+import { authAPI } from "../../services/api";
 
 const LoginFormMUI = ({ onSubmit, isSubmitting = false, error = null }) => {
   const { values, errors, handleChange, handleSubmit } = useForm({
     initialValues: {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
     },
     validationRules: {
-      email: ['required', 'email'],
-      password: ['required', 'min:6']
+      email: ["required", "email"],
+      password: ["required", "min:6"],
     },
     onSubmit: async (formValues) => {
       const payload = {
         email: formValues.email,
-        password: formValues.password
+        password: formValues.password,
       };
       await onSubmit(payload);
-    }
+    },
   });
 
+  const dummyUsers = [
+    { email: "user1@example.com", password: "ChangeMe123!" },
+    { email: "user2@example.com", password: "ChangeMe123!" },
+    { email: "admin@example.com", password: "ChangeMe123!" },
+    {}
+  ];
+
   return (
-    <Paper elevation={3} sx={{ p: 4, maxWidth: 400, mx: 'auto', mt: 8 }}>
+    <Paper elevation={3} sx={{ p: 4, maxWidth: 400, mx: "auto", mt: 8 }}>
       <Typography variant="h4" component="h1" gutterBottom align="center">
         Login
       </Typography>
@@ -45,7 +54,7 @@ const LoginFormMUI = ({ onSubmit, isSubmitting = false, error = null }) => {
       )}
 
       <form onSubmit={handleSubmit}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             fullWidth
             label="Email"
@@ -85,22 +94,47 @@ const LoginFormMUI = ({ onSubmit, isSubmitting = false, error = null }) => {
             {isSubmitting ? (
               <CircularProgress size={24} color="inherit" />
             ) : (
-              'Login'
+              "Login"
             )}
           </Button>
 
-          <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Box sx={{ mt: 2, textAlign: "center" }}>
             <Typography variant="body2">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link component={RouterLink} to="/register" underline="hover">
                 Register here
               </Link>
             </Typography>
           </Box>
         </Box>
+
+        <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>
+    Dummy Users:
+  </Typography>
+  <List dense>
+    {dummyUsers.map((user, index) => (
+      <ListItem
+        key={index}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          p: 1,
+          borderBottom: index !== dummyUsers.length - 1 ? "1px solid #ddd" : "none",
+        }}
+      >
+        <Typography variant="body2">
+          <strong>Email:</strong> {user.email}
+        </Typography>
+        <Typography variant="body2">
+          <strong>Password:</strong> {user.password}
+        </Typography>
+      </ListItem>
+    ))}
+  </List>
       </form>
     </Paper>
   );
 };
 
-export default LoginFormMUI; 
+export default LoginFormMUI;
